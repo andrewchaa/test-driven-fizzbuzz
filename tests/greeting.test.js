@@ -5,3 +5,4 @@ describe('greeting()', () => {
     expect(greeting('Jest')).toBe('Hello, Jest!')
   })
 })
+
