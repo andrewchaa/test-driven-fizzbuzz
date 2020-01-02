@@ -1,10 +1,5 @@
 import React from 'react'
 
-function CarouselButton() {
-  return (
-    <button />
-  )
-  
-}
+const CarouselButton = () => <button />
 
 export default CarouselButton
