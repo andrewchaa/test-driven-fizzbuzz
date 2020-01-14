@@ -31,5 +31,6 @@ describe('CarouselButton', () => {
     expect(wrapper.prop('className')).toBe(className)
     expect(wrapper.prop('data-action')).toBe(dataAction)
   })
+
 })
 
