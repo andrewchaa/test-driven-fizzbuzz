@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 import Carousel from '../Carousel'
-import CarouselButton from '../CarouselButtonÌ'
+import CarouselButton from '../CarouselButton'
 
 describe('Carousel', () => {
   let wrapper
@@ -26,4 +26,18 @@ describe('Carousel', () => {
   it('renders a CarouselButton labeled "Next"', () => {
     expect(wrapper.find(CarouselButton).at(1).prop('children')).toBe('Next')
   })
+
+  it('decrements `slideIndex` when Prev is clicked', () => {
+    wrapper.setState({ slideIndex: 1 })
+    wrapper.find('[data-action="prev"]').simulate('click')
+    expect(wrapper.state('slideIndex')).toBe(0)
+  })
+
+  it('decrements `slideIndex` when Next is clicked', () => {
+    wrapper.setState({ slideIndex: 1 })
+    wrapper.find('[data-action="next"]').simulate('click')
+    expect(wrapper.state('slideIndex')).toBe(2)
+  })
+
+
 })
