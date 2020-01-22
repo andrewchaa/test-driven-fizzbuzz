@@ -2,12 +2,28 @@ import React from 'react'
 import { shallow, mount, render } from 'enzyme'
 import Carousel from '../Carousel'
 import CarouselButton from '../CarouselButton'
+import CarouselSlide from '../CarouselSlide'
 
 describe('Carousel', () => {
   let wrapper
 
+  const slides = [{
+    imgUrl: 'https://example.com/slide1.png',
+    description: 'Slide 1',
+    attribution: 'Uno Pizzeria',
+    }, {
+    imgUrl: 'https://example.com/slide2.png',
+    description: 'Slide 2',
+    attribution: 'Dos Equis',
+    }, {
+    imgUrl: 'https://example.com/slide1.png',
+    description: 'Slide 3',
+    attribution: 'Three Amigos',
+    },
+  ]
+
   beforeEach(() => {
-    wrapper = shallow(<Carousel />)
+    wrapper = shallow(<Carousel slides={slides} />)
   })
 
   it('renders a <div>', () => {
@@ -20,7 +36,7 @@ describe('Carousel', () => {
 
   it('renders a CarouselButton labeled "Prev"', () => {
     console.log(wrapper.children().debug())
-    expect(wrapper.children().at(0).prop('children')).toBe('Prev')
+    expect(wrapper.find(CarouselButton).at(0).prop('children')).toBe('Prev')
   })
 
   it('renders a CarouselButton labeled "Next"', () => {
@@ -39,5 +55,21 @@ describe('Carousel', () => {
     expect(wrapper.state('slideIndex')).toBe(2)
   })
 
+  it('renders the current slide as a CarouselSlide', () => {
+    let slideProps
+    slideProps = wrapper.find(CarouselSlide).props()
+    expect(slideProps).toEqual(slides[0])
+    wrapper.setState({slideIndex: 1})
+    slideProps = wrapper.find(CarouselSlide).props()
+    expect(slideProps).toEqual(slides[1])
+  })
+
+  describe('with the firs slide selected', () => {
+    it('wraps `slideIndex` to the max value when Prev is clicked', () => {
+      wrapper.setState({ slideIndex: 0})
+      wrapper.find('[data-action="prev"]').simulate('click')
+      expect(wrapper.state('slideIndex')).toBe(slides.length-1)
+    })
+  })
 
 })

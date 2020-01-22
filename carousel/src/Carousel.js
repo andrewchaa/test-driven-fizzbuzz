@@ -1,5 +1,6 @@
 import React from 'react'
 import CarouselButton from './CarouselButton'
+import CarouselSlide from './CarouselSlide'
 
 class Carousel extends React.PureComponent {
 
@@ -8,7 +9,8 @@ class Carousel extends React.PureComponent {
   }
 
   handlePrevClick = () => {
-    this.setState(({ slideIndex }) => ({slideIndex: slideIndex - 1}))
+    const { slides } = this.props
+    this.setState(({ slideIndex }) => ({slideIndex: (slideIndex + slides.length - 1) % slides.length}))
   }
 
   handleNextClick = () => {
@@ -16,8 +18,11 @@ class Carousel extends React.PureComponent {
   }
 
   render() {
+
+    const { slides, ...rest } = this.props
     return (
-      <div>
+      <div {...rest}>
+        <CarouselSlide { ...slides[this.state.slideIndex]} />
         <CarouselButton data-action="prev" onClick={this.handlePrevClick}>Prev</CarouselButton>
         <CarouselButton data-action="next" onClick={this.handleNextClick}>Next</CarouselButton>
       </div>
